@@ -11,5 +11,5 @@ public interface OrderService {
 	public List<Order> getOrdersByCartId(int id);
 	public Order getOneById(int id);
 	public void update(Order order);
-	public void delete(Order order);
+	public void delete(int id);
 }

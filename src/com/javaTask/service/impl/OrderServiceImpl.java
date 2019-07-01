@@ -55,9 +55,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void delete(Order order) {
+	public void delete(int id) {
 		try {
-			OrderDAO.delete(order);
+			OrderDAO.delete(id);
 		} catch (SQLException e) {
 			LOG.info("Exception occured in the delete() of OrderServiceImpl.class");
 			e.printStackTrace();

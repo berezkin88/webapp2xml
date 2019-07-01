@@ -43,6 +43,17 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
+	
+	@Override
+	public User getOneByUsernamed(String username) {
+		try {
+			return UserDAO.getOneByUsername(username);
+		} catch (Exception e) {
+			LOG.info("Exception occured in the getOneByUsernamed() of UserServiceImpl.class");
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public void update(User user) {

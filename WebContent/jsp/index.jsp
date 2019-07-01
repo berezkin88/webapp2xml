@@ -38,12 +38,12 @@ h3 {
 </style>
 
 <body>
-	<form action="loginservlet" method="post" id="login-form">
-		<h3>Username</h3>
-		<input type="text" name="username" id="login-form-username">
-		<h3>Password</h3>
-		<input type="text" name="password" id="login-form-password"> 
-		<input type="submit" id="login-form-submit" value="Submit">
+	<form action="./loginservlet" method="post" id="login-form">
+		<label for="login-form-username">Username</label>
+        <input type="text" name="username" id="login-form-username" required>
+        <label for="login-form-password">Password</label>
+        <input type="text" name="password" id="login-form-password" required>
+        <input type="submit" id="login-form-submit" value="Submit">
 	</form>
 </body>
 

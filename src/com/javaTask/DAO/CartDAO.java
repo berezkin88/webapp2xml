@@ -224,7 +224,38 @@ public class CartDAO {
 		return result;
 
 	}
+	
+	public static Cart getCartByUserIdAndOpen(int id) throws SQLException {
+		Statement statement = null;
+		Connection connection = null;
+		Cart cart = new Cart();
 
+		try {
+			connection = ConnectionAndStatementFactory.connecting();
+
+			LOG.info("seaching by id through CART table...");
+			statement = ConnectionAndStatementFactory.createStatement(connection);
+
+			String SQL = "SELECT * FROM CART WHERE userid = " + id + "AND status LIKE 'OPEN' LIMIT 1";
+
+			ResultSet resultSet = statement.executeQuery(SQL);
+
+			if (resultSet.next())
+				cart = createCart(resultSet);
+			LOG.info("seaching complete");
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+		return cart;
+
+	}
+	
 	private static Cart createCart(ResultSet resultSet) throws SQLException {
 		Cart cart = new Cart();
 

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import com.javaTask.DAO.ProductDAO;
 import com.javaTask.model.Product;
 import com.javaTask.service.ProductService;
+import com.javaTask.utilities.ProductTO;
 
 public class ProductServiceImpl implements ProductService {
 	
@@ -28,6 +29,28 @@ public class ProductServiceImpl implements ProductService {
 			return ProductDAO.getAll();
 		} catch (SQLException e) {
 			LOG.info("Exception occured in the getAll() of ProductServiceImpl.class");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<ProductTO> getAllProductsByCartId(int cartId) {
+		try {
+			return ProductDAO.getAllProductsByCartId(cartId);
+		} catch (SQLException e) {
+			LOG.info("Exception occured in the getAllProductsByCartId() of ProductServiceImpl.class");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<ProductTO> getProductsHistoryByTimeAndUserId(int userId, long from, long till) {
+		try {
+			return ProductDAO.getProductsHistoryByTimeAndUserId(userId, from, till);
+		} catch (SQLException e) {
+			LOG.info("Exception occured in the getProductsHistoryByTimeAndUserId() of ProductServiceImpl.class");
 			e.printStackTrace();
 		}
 		return null;

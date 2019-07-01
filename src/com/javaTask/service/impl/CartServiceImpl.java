@@ -9,10 +9,10 @@ import com.javaTask.model.Cart;
 import com.javaTask.model.enums.Status;
 import com.javaTask.service.CartService;
 
-public class CartServiceImpl implements CartService{
-	
+public class CartServiceImpl implements CartService {
+
 	private static final Logger LOG = Logger.getLogger(CartServiceImpl.class.getName());
-	
+
 	@Override
 	public void createCart(Cart cart) {
 		try {
@@ -88,9 +88,20 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public void checkout(Cart cart) {
+	public Cart getCartsByUserIdAndOpen(int id) {
 		try {
-			Cart cartToClose = CartDAO.getOneById(cart.getId());
+			return CartDAO.getCartByUserIdAndOpen(id);
+		} catch (SQLException e) {
+			LOG.info("Exception occured in the getCartsByUserIdAndOpen() of CartServiceImpl.class");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public void checkout(int id) {
+		try {
+			Cart cartToClose = CartDAO.getOneById(id);
 			cartToClose.setStatus(Status.CLOSED);
 			CartDAO.updateById(cartToClose);
 		} catch (SQLException e) {
@@ -102,16 +113,18 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public boolean validateCart(Cart cart) {
 		Cart cartToCheck = null;
-		
+
 		try {
 			cartToCheck = CartDAO.getOneById(cart.getId());
 		} catch (SQLException e) {
 			LOG.info("Exception occured in the validateCart() of CartServiceImpl.class");
 			e.printStackTrace();
 		}
-		
-		if (cartToCheck.getStatus().equals("Open") && cartToCheck != null) 
+
+		if (cartToCheck != null && cartToCheck.getStatus().equals(Status.OPEN)) {
+			LOG.info(cartToCheck.toString());
 			return true;
+		}
 		
 		return false;
 	}

@@ -7,10 +7,8 @@ public class Product {
 	private double price;
 	private String description;
 	
-	public Product() {
-		this.price = 0.0;
-	}
-
+	public Product() {}
+	
 	public int getId() {
 		return id;
 	}

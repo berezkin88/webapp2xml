@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,7 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.javaTask.DAO.connection.ConnectionAndStatementFactory;
+import com.javaTask.model.Order;
 import com.javaTask.model.Product;
+import com.javaTask.utilities.ProductTO;
 
 class ProductDAOTest {
 	
@@ -77,7 +80,7 @@ class ProductDAOTest {
 		}
 		
 		String selectAll = "select * from PRODUCT";
-
+ 
 		try {
 			LOG.info("reading from PRODUCT table...");
 			ResultSet rs = statement.executeQuery(selectAll);
@@ -268,5 +271,37 @@ class ProductDAOTest {
 		assertEquals(product.getTitle(), checkProduct.getTitle());
 		assertEquals(product.getPrice(), checkProduct.getPrice(), 0.1);
 		assertEquals(product.getDescription(), checkProduct.getDescription());
+	}
+	
+	@Test
+	void testGetAllProductsByCartId() {
+		Product product = new Product();
+		Order order = new Order();
+		List<ProductTO> checkPool = null;
+		
+		product.setTitle("product1");
+		product.setPrice(10.1);
+		product.setDescription("about product1");
+		
+		order.setCartId(111);
+		order.setProductId(1);
+		order.setQuantity(1111);
+		
+		try {
+			LOG.info("inserting test product into PRODUCT and ORDERENTITY tables...");
+			ProductDAO.insert(product);
+			OrderDAO.insert(order);
+			
+			LOG.info("getting test product from PRODUCT and ORDERENTITY table...");
+			checkPool = ProductDAO.getAllProductsByCartId(111);
+		} catch (SQLException e) {
+			LOG.info("Exception thrown while inserting test product in testGetAllProductsByCartId() method in ProductDAOTest.class");
+			e.printStackTrace();
+		}
+		
+		assertEquals(1, checkPool.size());
+		assertEquals(product.getTitle(), checkPool.get(0).getTitle());
+		assertEquals(product.getPrice(), checkPool.get(0).getPrice(), 0.1);
+		assertEquals(order.getQuantity(), checkPool.get(0).getQuantity());
 	}
 }

@@ -267,6 +267,31 @@ class CartDAOTest {
 	}
 	
 	@Test
+	void testGetCartByUserIdAndOpen() {
+		Cart cart = new Cart();
+		Cart checkCart = null;
+
+		cart.setUserId(111);
+		cart.setStatus(Status.OPEN);
+		cart.setTime(System.currentTimeMillis());
+		
+		try {
+			LOG.info("inserting test cart into CART table...");
+			CartDAO.insert(cart);
+			
+			LOG.info("deleting test cart from CART table...");
+			checkCart = CartDAO.getCartByUserIdAndOpen(111);
+		} catch (SQLException e) {
+			LOG.info("Exception thrown in testDelete() method in CartDAOTest.class");
+			e.printStackTrace();
+		} 
+		
+		assertTrue(checkCart != null);
+		assertEquals(111, checkCart.getUserId());
+		assertEquals(Status.OPEN, checkCart.getStatus());
+	}
+	
+	@Test
 	void testGetCartsByTime() throws SQLException{
 		Connection connection = null;
 		Statement statement = null;

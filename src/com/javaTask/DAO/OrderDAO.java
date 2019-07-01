@@ -135,7 +135,7 @@ public class OrderDAO {
 		}
 	}
 
-	public static void delete(Order order) throws SQLException {
+	public static void delete(int id) throws SQLException {
 		Statement statement = null;
 		Connection connection = null;
 		
@@ -145,7 +145,7 @@ public class OrderDAO {
 			LOG.info("deleting from ORDERENTITY table...");
 			statement = ConnectionAndStatementFactory.createStatement(connection);
 
-			String SQL = "DELETE FROM ORDERENTITY WHERE id = " + order.getId();
+			String SQL = "DELETE FROM ORDERENTITY WHERE id = " + id;
 
 			statement.execute(SQL);
 			LOG.info("deleting complete");

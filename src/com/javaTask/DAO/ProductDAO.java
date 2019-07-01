@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import com.javaTask.DAO.connection.ConnectionAndStatementFactory;
 import com.javaTask.model.Product;
+import com.javaTask.utilities.ProductTO;
 
 public class ProductDAO {
 
@@ -18,7 +19,7 @@ public class ProductDAO {
 	public static void insert(Product product) throws SQLException {
 		Statement statement = null;
 		Connection connection = null;
-		
+
 		try {
 			connection = ConnectionAndStatementFactory.connecting();
 
@@ -75,10 +76,80 @@ public class ProductDAO {
 		return result;
 	}
 
+	public static List<ProductTO> getAllProductsByCartId(int id) throws SQLException {
+		Statement statement = null;
+		Connection connection = null;
+		List<ProductTO> result = new ArrayList<>();
+
+		try {
+			connection = ConnectionAndStatementFactory.connecting();
+
+			LOG.info("reading from PRODUCT and ORDER table...");
+			statement = ConnectionAndStatementFactory.createStatement(connection);
+
+			String SQL = "SELECT title, quantity, price, orderentity.id as orderid FROM product \r\n"
+					+ "JOIN orderentity ON product.id=orderentity.productid \r\n" + "WHERE cartid = " + id;
+
+			ResultSet resultSet = statement.executeQuery(SQL);
+			LOG.info("reading completed");
+
+			while (resultSet.next()) {
+				result.add(createProductTO(resultSet));
+			}
+
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+		return result;
+	}
+
+	public static List<ProductTO> getProductsHistoryByTimeAndUserId(int userId, long from, long till) throws SQLException {
+
+		Statement statement = null;
+		Connection connection = null;
+		List<ProductTO> result = new ArrayList<>();
+
+		try {
+			connection = ConnectionAndStatementFactory.connecting();
+
+			LOG.info("reading from PRODUCT and ORDER table...");
+			statement = ConnectionAndStatementFactory.createStatement(connection);
+
+			String SQL = "select title, quantity, price, orderentity.id as orderid from product\r\n"
+					+ "join orderentity on product.id=orderentity.productid\r\n"
+					+ "join cart on orderentity.cartid=cart.id where userid = " + userId + "\r\n"
+					+ "and timestamp between " + from + " and " + till + "and status like 'CLOSED'";
+
+			ResultSet resultSet = statement.executeQuery(SQL);
+			LOG.info("reading completed");
+
+			while (resultSet.next()) {
+				result.add(createProductTO(resultSet));
+			}
+
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+		return result;
+
+	}
+
 	public static void updateById(Product product) throws SQLException {
 		Statement statement = null;
 		Connection connection = null;
-		
+
 		try {
 			connection = ConnectionAndStatementFactory.connecting();
 
@@ -103,7 +174,7 @@ public class ProductDAO {
 	public static void delete(Product product) throws SQLException {
 		Statement statement = null;
 		Connection connection = null;
-		
+
 		try {
 			connection = ConnectionAndStatementFactory.connecting();
 
@@ -159,8 +230,19 @@ public class ProductDAO {
 
 		product.setId(resultSet.getInt("id"));
 		product.setTitle(resultSet.getString("title"));
-		product.setPrice(resultSet.getDouble("price"));
+		product.setPrice(Math.round((resultSet.getDouble("price")) * 10) / 10.0);
 		product.setDescription(resultSet.getString("description"));
+
+		return product;
+	}
+
+	private static ProductTO createProductTO(ResultSet resultSet) throws SQLException {
+		ProductTO product = new ProductTO();
+
+		product.setTitle(resultSet.getString("title"));
+		product.setQuantity(resultSet.getInt("quantity"));
+		product.setPrice(Math.round((resultSet.getDouble("price")) * 10) / 10.0);
+		product.setOrderId(resultSet.getInt("orderid"));
 
 		return product;
 	}
