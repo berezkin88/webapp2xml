@@ -26,14 +26,14 @@ import com.javaTask.utilities.ProductTO;
 public class CartServlet extends HttpServlet {
 	
 	private static final Logger LOG = Logger.getLogger(CartServlet.class.getName());
-	private ProductService ps = new ProductServiceImpl(); 
+	private ProductService productService = new ProductServiceImpl(); 
 //	private static Cart cart = OrderServlet.getCart();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String userId = req.getParameter("userid");
 		String cartId = req.getParameter("cartid");
-		List<ProductTO> results = ps.getAllProductsByCartId(Integer.valueOf(cartId));
+		List<ProductTO> results = productService.getAllProductsByCartId(Integer.valueOf(cartId));
 		
 		req.setAttribute("results", results);
 		req.setAttribute("cartId", cartId);

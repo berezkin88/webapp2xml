@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.javaTask.DAO.connection.ConnectionAndStatementFactory;
+import com.javaTask.DAO.ConnectionAndStatementFactory;
 import com.javaTask.model.Order;
 
 public class OrderDAO {

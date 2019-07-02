@@ -29,8 +29,8 @@ import com.javaTask.service.impl.OrderServiceImpl;
 public class OrderServlet extends HttpServlet {
 
 	private static final Logger LOG = Logger.getLogger(OrderServlet.class.getName());
-	private static OrderService os = new OrderServiceImpl();
-	private static CartService cs = new CartServiceImpl();
+	private static OrderService orderService = new OrderServiceImpl();
+	private static CartService cartService = new CartServiceImpl();
 	private static Cart cart = null;
 
 	@Override
@@ -46,7 +46,7 @@ public class OrderServlet extends HttpServlet {
 		order.setQuantity(Integer.valueOf(req.getParameter("quantity")));
 
 		LOG.info("creating new order...");
-		os.insert(order);
+		orderService.insert(order);
 		
 		resp.setStatus(201);
 		
@@ -54,9 +54,9 @@ public class OrderServlet extends HttpServlet {
 	}
 
 	private static Cart validateCart(int id) {
-		Cart cart = cs.getOneById(id);
+		Cart cart = cartService.getOneById(id);
 		
-		if(cs.validateCart(cart)) {
+		if(cartService.validateCart(cart)) {
 			return cart;
 		} else {
 			Cart newCart = new Cart();
@@ -66,8 +66,8 @@ public class OrderServlet extends HttpServlet {
 			newCart.setStatus(Status.OPEN);
 			newCart.setTime(System.currentTimeMillis());
 			
-			cs.createCart(newCart);
-			newCart = cs.getCartsByUserIdAndOpen(newCart.getUserId());
+			cartService.createCart(newCart);
+			newCart = cartService.getCartsByUserIdAndOpen(newCart.getUserId());
 			
 			LOG.info(newCart.toString());
 			

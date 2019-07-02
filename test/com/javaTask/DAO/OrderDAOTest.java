@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.javaTask.DAO.connection.ConnectionAndStatementFactory;
+import com.javaTask.DAO.ConnectionAndStatementFactory;
 import com.javaTask.model.Order;
 
 class OrderDAOTest {
@@ -253,7 +253,7 @@ class OrderDAOTest {
 			OrderDAO.insert(order);
 
 			LOG.info("deleting test order in ORDERENTITY table...");
-			OrderDAO.delete(order);
+			OrderDAO.delete(order.getId());
 		} catch (SQLException e) {
 			LOG.info("Exception thrown while inserting test order in testDelete() method in OrderDAOTest.class");
 			e.printStackTrace();

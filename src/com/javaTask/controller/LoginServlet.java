@@ -35,9 +35,9 @@ public class LoginServlet extends HttpServlet {
 
 	private static final Logger LOG = Logger.getLogger(LoginServlet.class.getName());
 
-	private static UserService us = new UserServiceImpl();
-	private static ProductService ps = new ProductServiceImpl();
-	private static CartService cs = new CartServiceImpl();
+	private static UserService userService = new UserServiceImpl();
+	private static ProductService productService = new ProductServiceImpl();
+	private static CartService cartService = new CartServiceImpl();
 	private static List<Product> products;
 	private static Cart cart = null;
 	private static User user = null;
@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 
 		createUserAndCart(req.getParameter("username"), req.getParameter("password"));
 
-		products = ps.getAll();
+		products = productService.getAll();
 
 		req.setAttribute("products", products);
 		req.setAttribute("userId", user.getId());
@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String userId = req.getParameter("userid");
-		products = ps.getAll();
+		products = productService.getAll();
 
 		if (userId.isEmpty()) {
 			RequestDispatcher view = req.getRequestDispatcher("jsp/index.jsp");
@@ -86,9 +86,9 @@ public class LoginServlet extends HttpServlet {
 		user.setUsername(username);
 		user.setPassword(password);
 
-		us.insert(user);
+		userService.insert(user);
 
-		user = us.getOneByUsernamed(user.getUsername());
+		user = userService.getOneByUsernamed(user.getUsername());
 		LOG.info(user.toString());
 
 		if (cart == null)
@@ -99,9 +99,9 @@ public class LoginServlet extends HttpServlet {
 		cart.setStatus(Status.OPEN);
 		cart.setTime(System.currentTimeMillis());
 
-		cs.createCart(cart);
+		cartService.createCart(cart);
 
-		cart = cs.getCartsByUserIdAndOpen(user.getId());
+		cart = cartService.getCartsByUserIdAndOpen(user.getId());
 
 		LOG.info(cart.toString());
 	}
@@ -114,9 +114,9 @@ public class LoginServlet extends HttpServlet {
 		newCart.setStatus(Status.OPEN);
 		newCart.setTime(System.currentTimeMillis());
 
-		cs.createCart(newCart);
+		cartService.createCart(newCart);
 
-		newCart = cs.getCartsByUserIdAndOpen(userId);
+		newCart = cartService.getCartsByUserIdAndOpen(userId);
 
 		LOG.info("new cart created" + newCart.toString());
 		

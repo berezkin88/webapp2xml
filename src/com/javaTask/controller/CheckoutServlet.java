@@ -20,7 +20,7 @@ import com.javaTask.service.impl.CartServiceImpl;
 public class CheckoutServlet extends HttpServlet {
 	
 	private static final Logger LOG = Logger.getLogger(CheckoutServlet.class.getName());
-	private static CartService cs = new CartServiceImpl();
+	private static CartService cartService = new CartServiceImpl();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +28,7 @@ public class CheckoutServlet extends HttpServlet {
 		String cartId = req.getParameter("cartid");
 		int id = Integer.valueOf(cartId);
 		
-		cs.checkout(id);
+		cartService.checkout(id);
 		LOG.info("Cart #" + id + " is closed");
 		
 		resp.setStatus(201);

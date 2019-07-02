@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.javaTask.DAO.connection.ConnectionAndStatementFactory;
+import com.javaTask.DAO.ConnectionAndStatementFactory;
 import com.javaTask.model.Cart;
 import com.javaTask.model.enums.Status;
 

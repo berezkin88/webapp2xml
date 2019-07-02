@@ -1,4 +1,4 @@
-package com.javaTask.DAO.connection;
+package com.javaTask.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +16,7 @@ public class ConnectionAndStatementFactory {
 	private static final String USER = "postgres";
 	private static final String PASSWORD = "root";
 
-	public static Connection connecting() {
+	protected static Connection connecting() {
 		Connection con = null;
 		
 		try {

@@ -6,16 +6,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.javaTask.DAO.connection.ConnectionAndStatementFactory;
+import com.javaTask.DAO.ConnectionAndStatementFactory;
+import com.javaTask.model.Cart;
 import com.javaTask.model.Order;
 import com.javaTask.model.Product;
+import com.javaTask.model.enums.Status;
 import com.javaTask.utilities.ProductTO;
 
 class ProductDAOTest {
@@ -288,14 +289,14 @@ class ProductDAOTest {
 		order.setQuantity(1111);
 		
 		try {
-			LOG.info("inserting test product into PRODUCT and ORDERENTITY tables...");
+			LOG.info("inserting test product and order into PRODUCT and ORDERENTITY tables...");
 			ProductDAO.insert(product);
 			OrderDAO.insert(order);
 			
-			LOG.info("getting test product from PRODUCT and ORDERENTITY table...");
+			LOG.info("getting test productTO from PRODUCT and ORDERENTITY tables...");
 			checkPool = ProductDAO.getAllProductsByCartId(111);
 		} catch (SQLException e) {
-			LOG.info("Exception thrown while inserting test product in testGetAllProductsByCartId() method in ProductDAOTest.class");
+			LOG.info("Exception thrown while inserting or getting test productTO in testGetAllProductsByCartId() method in ProductDAOTest.class");
 			e.printStackTrace();
 		}
 		
@@ -303,5 +304,62 @@ class ProductDAOTest {
 		assertEquals(product.getTitle(), checkPool.get(0).getTitle());
 		assertEquals(product.getPrice(), checkPool.get(0).getPrice(), 0.1);
 		assertEquals(order.getQuantity(), checkPool.get(0).getQuantity());
+	}
+	
+	@Test
+	void testGetProductsHistoryByTimeAndUserId() {
+		Product product1 = new Product();
+		Product product2 = new Product();
+		Order order1 = new Order();
+		Order order2 = new Order();
+		Cart cart1 = new Cart();
+		Cart cart2 = new Cart();
+		List<ProductTO> checkPool = null;
+		
+		product1.setTitle("product1");
+		product1.setPrice(10.1);
+		product1.setDescription("about product1");
+		product2.setTitle("product2");
+		product2.setPrice(20.2);
+		product2.setDescription("about product2");
+		
+		order1.setCartId(1);
+		order1.setProductId(1);
+		order1.setQuantity(1111);
+		order2.setCartId(2);
+		order2.setProductId(2);
+		order2.setQuantity(1111);
+		
+		cart1.setUserId(11111);
+		cart1.setStatus(Status.CLOSED);;
+		cart1.setTime(156000000l);
+		cart2.setUserId(11111);
+		cart2.setStatus(Status.OPEN);;
+		cart2.setTime(157000000l);
+		
+		try {
+			LOG.info("inserting test products into PRODUCT table...");
+			ProductDAO.insert(product1);
+			ProductDAO.insert(product2);
+			
+			LOG.info("inserting test orders into ORDERENTITY table...");
+			OrderDAO.insert(order1);
+			OrderDAO.insert(order2);
+			
+			LOG.info("inserting test carts into CART table...");
+			CartDAO.insert(cart1);
+			CartDAO.insert(cart2);
+			
+			LOG.info("getting test productTO from PRODUCT, ORDERENTITY and CART tables...");
+			checkPool = ProductDAO.getProductsHistoryByTimeAndUserId(11111, 155000000l, 158000000l);
+		} catch (SQLException e) {
+			LOG.info("Exception thrown while performing test in testGetProductsHistoryByTimeAndUserId() method in ProductDAOTest.class");
+			e.printStackTrace();
+		}
+		
+		assertEquals(1, checkPool.size());
+		assertEquals(product1.getTitle(), checkPool.get(0).getTitle());
+		assertEquals(product1.getPrice(), checkPool.get(0).getPrice(), 0.1);
+		assertEquals(order1.getQuantity(), checkPool.get(0).getQuantity());
 	}
 }

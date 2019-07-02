@@ -25,7 +25,7 @@ import com.javaTask.utilities.ProductTO;
 public class HistoryServlet extends HttpServlet {
 	
 	private static final Logger LOG = Logger.getLogger(HistoryServlet.class.getName());
-	private static ProductService ps = new ProductServiceImpl();
+	private static ProductService productService = new ProductServiceImpl();
 	private String from = null;
 	private String till = null;
 	private long timeFrom = 0l;
@@ -50,7 +50,7 @@ public class HistoryServlet extends HttpServlet {
 			view.forward(req, resp);
 		}
 		
-		List<ProductTO> results = ps.getProductsHistoryByTimeAndUserId(Integer.valueOf(userId), timeFrom, timeTill);
+		List<ProductTO> results = productService.getProductsHistoryByTimeAndUserId(Integer.valueOf(userId), timeFrom, timeTill);
 		
 		req.setAttribute("results", results);
 		req.setAttribute("userId", userId);

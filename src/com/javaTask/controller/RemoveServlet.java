@@ -22,14 +22,14 @@ import com.javaTask.service.impl.OrderServiceImpl;
 public class RemoveServlet extends HttpServlet {
 	
 	private static final Logger LOG = Logger.getLogger(RemoveServlet.class.getName());
-	private static OrderService os = new OrderServiceImpl();
+	private static OrderService orderService = new OrderServiceImpl();
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int orderId = Integer.valueOf(req.getParameter("orderid"));
 		
 		if (orderId != 0) {
-			os.delete(orderId);
+			orderService.delete(orderId);
 			LOG.info("order deleted");
 			
 			resp.setStatus(200);
