@@ -1,0 +1,4 @@
+com\javaTask\DAO\OrderDAOTest.class
+com\javaTask\DAO\ProductDAOTest.class
+com\javaTask\DAO\UserDAOTest.class
+com\javaTask\DAO\CartDAOTest.class
