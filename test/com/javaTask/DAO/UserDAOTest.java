@@ -14,8 +14,9 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.javaTask.DAO.ConnectionAndStatementFactory;
-import com.javaTask.model.User;
+import main.java.com.javaTask.DAO.ConnectionAndStatementFactory;
+import main.java.com.javaTask.DAO.UserDAO;
+import main.java.com.javaTask.model.User;
 
 class UserDAOTest {
 	private static final Logger LOG = Logger.getLogger(UserDAOTest.class.getName());

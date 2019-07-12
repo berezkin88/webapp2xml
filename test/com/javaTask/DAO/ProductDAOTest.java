@@ -12,12 +12,14 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.javaTask.DAO.ConnectionAndStatementFactory;
-import com.javaTask.model.Cart;
-import com.javaTask.model.Order;
-import com.javaTask.model.Product;
-import com.javaTask.model.enums.Status;
-import com.javaTask.utilities.ProductTO;
+import main.java.com.javaTask.DAO.ConnectionAndStatementFactory;
+import main.java.com.javaTask.DAO.OrderDAO;
+import main.java.com.javaTask.DAO.ProductDAO;
+import main.java.com.javaTask.model.Cart;
+import main.java.com.javaTask.model.Order;
+import main.java.com.javaTask.model.Product;
+import main.java.com.javaTask.model.enums.Status;
+import main.java.com.javaTask.utilities.ProductTO;
 
 class ProductDAOTest {
 	
@@ -274,6 +276,37 @@ class ProductDAOTest {
 		assertEquals(product.getDescription(), checkProduct.getDescription());
 	}
 	
+	
+	@BeforeEach
+	void refilOrders() throws SQLException {
+		Connection connection = null;
+		Statement statement = null;
+
+		String drop = "drop table ORDERENTITY";
+		String create = "create table ORDERENTITY (\r\n" + "	id smallserial not null primary key,\r\n"
+				+ "	productId int not null,\r\n" + "	quantity int not null,\r\n" + "	cartId int not null\r\n" + ")";
+
+		try {
+			connection = ConnectionAndStatementFactory.connecting();
+			statement = ConnectionAndStatementFactory.createStatement(connection);
+
+			LOG.info("dropping ORDERENTITY table...");
+			statement.execute(drop);
+			LOG.info("recreating ORDERENTITY table...");
+			statement.execute(create);
+		} catch (SQLException e) {
+			LOG.info("Exception thrown in dropAndRecreate() method in OrderDAOTest.class");
+			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+	
 	@Test
 	void testGetAllProductsByCartId() {
 		Product product = new Product();
@@ -304,6 +337,36 @@ class ProductDAOTest {
 		assertEquals(product.getTitle(), checkPool.get(0).getTitle());
 		assertEquals(product.getPrice(), checkPool.get(0).getPrice(), 0.1);
 		assertEquals(order.getQuantity(), checkPool.get(0).getQuantity());
+	}
+	
+	@BeforeEach
+	void refilCart() throws SQLException {
+		Connection connection = null;
+		Statement statement = null;
+		
+		String drop = "drop table CART";
+		String create = "create table CART (\r\n" + "	id smallserial not null primary key,\r\n"
+				+ "	userId int not null,\r\n" + "	status varchar(255),\r\n" + "	timestamp bigint\r\n" + ")";
+
+		try {
+			connection = ConnectionAndStatementFactory.connecting();
+			statement = ConnectionAndStatementFactory.createStatement(connection);
+			
+			LOG.info("dropping CART table...");
+			statement.execute(drop);
+			LOG.info("recreating CART table...");
+			statement.execute(create);
+		} catch (SQLException e) {
+			LOG.info("Exception thrown in dropAndRecreate() method in CartDAOTest.class");
+			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
 	}
 	
 	@Test
@@ -347,8 +410,8 @@ class ProductDAOTest {
 			OrderDAO.insert(order2);
 			
 			LOG.info("inserting test carts into CART table...");
-			CartDAO.insert(cart1);
-			CartDAO.insert(cart2);
+//			CartDAO.insert(cart1);
+//			CartDAO.insert(cart2);
 			
 			LOG.info("getting test productTO from PRODUCT, ORDERENTITY and CART tables...");
 			checkPool = ProductDAO.getProductsHistoryByTimeAndUserId(11111, 155000000l, 158000000l);
