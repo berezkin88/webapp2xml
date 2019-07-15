@@ -39,6 +39,10 @@ public class CartServlet extends HttpServlet {
 		req.setAttribute("userId", userId);
 		LOG.info("Cart ID is " + cartId);
 		
+		if (userId == null || cartId == null || results == null) {
+			resp.setStatus(400);
+		}
+		
 		RequestDispatcher view = req.getRequestDispatcher("jsp/cart.jsp");
 		view.forward(req, resp);
 	}

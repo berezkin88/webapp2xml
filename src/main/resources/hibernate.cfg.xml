@@ -26,7 +26,7 @@
 		<property name="hibernate.dbcp.minIdle">5</property>
 		<property name="hibernate.dbcp.maxWaitMillis">-1</property>
 		<!-- Entities -->
-		<mapping package="main.java.com.javaTask.modely"/>
+		<mapping package="main.java.com.javaTask.model"/>
 		<mapping class="main.java.com.javaTask.model.Cart" />
 		<mapping class="main.java.com.javaTask.model.Order" />
 		<mapping class="main.java.com.javaTask.model.Product" />

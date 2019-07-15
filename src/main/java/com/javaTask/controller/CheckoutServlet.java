@@ -28,13 +28,17 @@ public class CheckoutServlet extends HttpServlet {
 		String cartId = req.getParameter("cartid");
 		int id = Integer.valueOf(cartId);
 		
-//		cartService.checkout(id);
+		cartService.checkout(id);
 		LOG.info("Cart #" + id + " is closed");
 		
 		resp.setStatus(201);
 		
 		req.setAttribute("cartId", cartId);
 		req.setAttribute("userId", userId);
+		
+		if (userId == null || cartId == null) {
+			resp.setStatus(400);
+		}
 		
 		RequestDispatcher view = req.getRequestDispatcher("jsp/success.jsp");
 		view.forward(req, resp);

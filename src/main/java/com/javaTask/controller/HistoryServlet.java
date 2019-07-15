@@ -54,6 +54,10 @@ public class HistoryServlet extends HttpServlet {
 		req.setAttribute("results", results);
 		req.setAttribute("userId", userId);
 		req.setAttribute("cartId", cartId);
+		
+		if (userId == null || cartId == null || results == null) {
+			resp.setStatus(400);
+		}
 
 		RequestDispatcher view = req.getRequestDispatcher("jsp/history.jsp");
 		view.forward(req, resp);

@@ -35,7 +35,6 @@ public class OrderServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String userId = req.getParameter("userid");
 		String cartId = req.getParameter("cartid");
 		LOG.info("Cart ID is " + cartId);
 		cart = validateCart(Integer.valueOf(cartId));
@@ -47,6 +46,10 @@ public class OrderServlet extends HttpServlet {
 
 		LOG.info("creating new order...");
 		orderService.insert(order);
+		
+		if (cart == null || cartId == null) {
+			resp.setStatus(400);
+		}
 
 		resp.setStatus(201);
 

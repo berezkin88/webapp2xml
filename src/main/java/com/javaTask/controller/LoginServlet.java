@@ -52,6 +52,10 @@ public class LoginServlet extends HttpServlet {
 		req.setAttribute("products", products);
 		req.setAttribute("userId", user.getId());
 		req.setAttribute("cartId", cart.getId());
+		
+		if (products == null || cart == null || user == null) {
+			resp.setStatus(400);
+		}
 
 		RequestDispatcher view = req.getRequestDispatcher("jsp/shop.jsp");
 		view.forward(req, resp);
@@ -72,6 +76,10 @@ public class LoginServlet extends HttpServlet {
 		req.setAttribute("products", products);
 		req.setAttribute("userId", userId);
 		req.setAttribute("cartId", cart.getId());
+		
+		if (products == null || cart == null || user == null) {
+			resp.setStatus(400);
+		}
 
 		RequestDispatcher view = req.getRequestDispatcher("jsp/shop.jsp");
 		view.forward(req, resp);
