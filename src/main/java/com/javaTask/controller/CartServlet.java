@@ -22,7 +22,7 @@ import main.java.com.javaTask.utilities.ProductTO;
  * This servlet is summarizing the purchase, can remove items and send call to close the cart, accepting GET calls
  */
 
-@WebServlet(name="cartservlet", urlPatterns="/cart")
+//@WebServlet(name="cartservlet", urlPatterns="/cart")
 public class CartServlet extends HttpServlet {
 	
 	private static final Logger LOG = Logger.getLogger(CartServlet.class.getName());

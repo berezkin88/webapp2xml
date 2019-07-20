@@ -16,7 +16,7 @@ import main.java.com.javaTask.service.impl.CartServiceImpl;
 /**
  * Servlet implementation class CheckoutServlet
  */
-@WebServlet(name="checkoutservlet", urlPatterns="/checkout")
+//@WebServlet(name="checkoutservlet", urlPatterns="/checkout")
 public class CheckoutServlet extends HttpServlet {
 	
 	private static final Logger LOG = Logger.getLogger(CheckoutServlet.class.getName());

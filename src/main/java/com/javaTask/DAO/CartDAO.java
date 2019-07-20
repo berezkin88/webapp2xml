@@ -12,7 +12,7 @@ import main.java.com.javaTask.model.enums.Status;
 public class CartDAO {
 
 	private final static Logger LOG = Logger.getLogger(CartDAO.class.getName());
-	private static final SessionFactory sessionFactory = HibernateFactory.getSessionFactory();
+	private static SessionFactory sessionFactory = HibernateFactory.getSessionFactory();
 
 	public static void insertCart(Cart cart) {
 		LOG.info("saving cart...");
@@ -105,5 +105,13 @@ public class CartDAO {
 
 		LOG.info("retrieving all carts complete");
 		return resultCart;
+	}
+
+	public static SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public static void setSessionFactory(SessionFactory sessionFactory) {
+		CartDAO.sessionFactory = sessionFactory;
 	}
 }

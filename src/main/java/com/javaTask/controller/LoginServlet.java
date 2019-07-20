@@ -21,6 +21,8 @@ import main.java.com.javaTask.service.ProductService;
 import main.java.com.javaTask.service.impl.CartServiceImpl;
 import main.java.com.javaTask.service.impl.ProductServiceImpl;
 import main.java.com.javaTask.service.UserService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * 
@@ -30,7 +32,7 @@ import main.java.com.javaTask.service.UserService;
  *         products and sending shop.jsp in response
  */
 
-@WebServlet(name = "loginservlet", urlPatterns = "/loginservlet")
+//@WebServlet(name = "loginservlet", urlPatterns = "/loginservlet")
 public class LoginServlet extends HttpServlet {
 
 	private static final Logger LOG = Logger.getLogger(LoginServlet.class.getName());
@@ -46,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		createUserAndCart(req.getParameter("username"), req.getParameter("password"));
-
+		
 		products = productService.getAll();
 
 		req.setAttribute("products", products);
@@ -57,7 +59,7 @@ public class LoginServlet extends HttpServlet {
 			resp.setStatus(400);
 		}
 
-		RequestDispatcher view = req.getRequestDispatcher("jsp/shop.jsp");
+		RequestDispatcher view = req.getRequestDispatcher("/jsp/shop.jsp");
 		view.forward(req, resp);
 	}
 

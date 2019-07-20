@@ -21,7 +21,7 @@ import main.java.com.javaTask.utilities.ProductTO;
 /**
  * Servlet implementation class HistoryServlet
  */
-@WebServlet(name="/HistoryServlet", urlPatterns="/history")
+//@WebServlet(name="/HistoryServlet", urlPatterns="/history")
 public class HistoryServlet extends HttpServlet {
 	
 	private static final Logger LOG = Logger.getLogger(HistoryServlet.class.getName());

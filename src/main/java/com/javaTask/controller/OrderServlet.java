@@ -25,7 +25,7 @@ import main.java.com.javaTask.service.impl.OrderServiceImpl;
  *         POST calls
  */
 
-@WebServlet(name = "orderservlet", urlPatterns = "/orderservlet")
+//@WebServlet(name = "orderservlet", urlPatterns = "/orderservlet")
 public class OrderServlet extends HttpServlet {
 
 	private static final Logger LOG = Logger.getLogger(OrderServlet.class.getName());

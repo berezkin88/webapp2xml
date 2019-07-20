@@ -18,7 +18,7 @@ import main.java.com.javaTask.service.impl.OrderServiceImpl;
  *
  * This servlet is deleting orders from the cart, listening to DELETE calls
  */
-@WebServlet(name="removeservlet", urlPatterns="/remove")
+//@WebServlet(name="removeservlet", urlPatterns="/remove")
 public class RemoveServlet extends HttpServlet {
 	
 	private static final Logger LOG = Logger.getLogger(RemoveServlet.class.getName());
